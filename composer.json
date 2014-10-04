@@ -1,0 +1,22 @@
+{
+    "name": "neemzy/environ-service-provider",
+    "description": "Environ service provider for Silex micro-framework",
+    "minimum-stability": "dev",
+
+    "authors": [
+        {
+            "name": "neemzy",
+            "email": "tom.panier@free.fr"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Neemzy\\Silex\\Provider\\": "src/"
+        }
+    }
+}
