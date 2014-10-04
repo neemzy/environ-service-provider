@@ -10,22 +10,22 @@ use Neemzy\Environ\Environment;
 class EnvironServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @var Neemzy\Environ\Manager Environ instance
+     * @var array Environment configurations collection
      */
-    protected $instance;
+    protected $environments;
 
 
 
     /**
      * Constructor
      *
-     * Instantiates Environ
+     * @param array $environments Environment configurations collection
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $environments)
     {
-        $this->instance = new Manager();
+        $this->environments = $environments;
     }
 
 
@@ -33,20 +33,22 @@ class EnvironServiceProvider implements ServiceProviderInterface
     /**
      * Registers this service on the given app
      *
-     * @param Silex\Application $app          Application instance
-     * @param array             $environments Environment collection
+     * @param Silex\Application $app Application instance
      *
      * @return void
      */
-    public function register(Application $app, array $environments)
+    public function register(Application $app)
     {
         $app['environ'] = $app->share(
-            function () use ($app, $environments) {
-                foreach ($environments as $name => $environment) {
-                    $this->instance->add($name, $environment);
+            function () use ($app) {
+                $manager = new Manager();
+
+                foreach ($this->environments as $name => $environment) {
+                    $manager->add($name, $environment);
                 }
 
-                return $this->instance;
+                $manager->init();
+                return $manager;
             }
         );
     }
