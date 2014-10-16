@@ -11,15 +11,18 @@ use Neemzy\Environ\Environment;
 $app = new Silex\Application();
 
 $app->register(
-    new EnvironServiceProvider(),
-    'env' => new Environment(
-        function () {
-            // condition closure
-        },
-        function () {
-            // callback closure
-        }
-    )
+    new EnvironServiceProvider(
+        [
+            'env' => new Environment(
+                function () {
+                    // condition closure
+                },
+                function () {
+                    // callback closure
+                }
+            )
+        ]
+    ),
 );
 
 $app->run();
